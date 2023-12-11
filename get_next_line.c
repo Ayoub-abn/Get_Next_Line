@@ -11,71 +11,47 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-char	*all_buffer(int fd, char *str)
+ 
+char *all_buffer(char *str,int fd)
 {
 	char *buffer;
-	int red;
+	int count;
 
-	red = 1;
-	buffer = malloc(BUFFER_SIZE * sizeof(char) + 1);
-	if (!buffer)
+	count = 1;
+	buffer = malloc(BUFFER_SIZE + 1);
+	if(buffer == NULL)
 		return (NULL);
-	while (red != 0 && !ft_strchr(str,'\n'))
+	while (count != 0 && *str != '\n')
 	{
-		red = read(fd,buffer,BUFFER_SIZE);
-		if(red == -1)
+		count = read(fd,buffer,BUFFER_SIZE);
+		buffer[BUFFER_SIZE] = '\0';
+		if(count == -1)
 		{
-			free(str);
 			free(buffer);
-			return(NULL);
+			free(str);
+			str = NULL;
 		}
 		str = ft_strjoin(str,buffer);
-		if(buffer == NULL)
-			return(NULL);
+		if(str == NULL)
+			return NULL;
 	}
 	free(buffer);
-	return (str);
+	return(str);
 }
-char	*show_line(char *str)
-{
-	char *line;
-	int i;
-	int j;
-
-	if (str == '\n')
-		return (NULL);
-	while (str && str[i] != '\n')
-		i++;
-	if (str == NULL)
-		i++;
-	line = malloc(i + 1);
-	if (line == NULL)
-		return (NULL);
-
-	i = 0;
-	while (line[i] && line [i] != '\n')
-		line [j++] = str[i++];
-	if (str[i] == '\n')
-	{
-		line[j] = '\n';
-		j++;
-	}
-	line[j] = '\0';
-	return (line);
-}
-
 char *get_next_line(int fd)
 {
-    static char *str;
-    char *line;
+	static char *str;
 
-    if(fd <= 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= 2147483647)
-        return (NULL);
-    str = all_buffer(fd,str);
-	if(str == NULL)
+	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= 2147483647)
 		return (NULL);
-	line = show_line(str);
-	return (line);
+	str = all_buffer(str,fd);
+	return (str);
 }
 
+int main()
+{
+	int i = open("text.txt",O_RDONLY);
+	printf("%d",i);
+	//ft_putstr_fd("ayoub\nrca\nabdenour",i);
+	printf("%s \n", get_next_line(i));
+}

@@ -54,7 +54,7 @@ char	*ft_strcpy(char *dest, char *src)
 	dest[i] = '\0';
 	return (dest);
 }
-char	*ft_strdup(const char *s1)
+char	*ft_strdup(char *s1)
 {
 	int		i;
 	char	*p;
@@ -97,3 +97,4 @@ char	*ft_strjoin(char *s1, char *s2)
 	free(s1);
 	return (str);
 }
+
