@@ -18,18 +18,18 @@ char *all_buffer(char *str,int fd)
 	int count;
 
 	count = 1;
-	buffer = malloc(BUFFER_SIZE + 1);
+	buffer = malloc(BUFFER_SIZE * sizeof(char) + 1);
 	if(buffer == NULL)
 		return (NULL);
-	while (count != 0 && *str != '\n')
+	while (count != 0 && !ft_strchr(str, '\n'))
 	{
 		count = read(fd,buffer,BUFFER_SIZE);
-		buffer[BUFFER_SIZE] = '\0';
+		
 		if(count == -1)
 		{
-			free(buffer);
 			free(str);
-			str = NULL;
+			free(buffer);
+			return NULL;
 		}
 		str = ft_strjoin(str,buffer);
 		if(str == NULL)
@@ -38,6 +38,27 @@ char *all_buffer(char *str,int fd)
 	free(buffer);
 	return(str);
 }
+char	*one_line(char *str)
+{
+	char *len;
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (str && str[i] != '\n')
+		i++;
+	if(str)
+		i++;
+	len = malloc(i + 1);
+
+	i = 0;
+	while (str && str[i] != '\n')
+		len[j++] = str[i++];
+	len[j] = '\0';
+	free(str);
+	return (len);
+}
 char *get_next_line(int fd)
 {
 	static char *str;
@@ -45,13 +66,14 @@ char *get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= 2147483647)
 		return (NULL);
 	str = all_buffer(str,fd);
+	str = one_line(str);
 	return (str);
 }
 
-int main()
-{
-	int i = open("text.txt",O_RDONLY);
-	printf("%d",i);
-	//ft_putstr_fd("ayoub\nrca\nabdenour",i);
-	printf("%s \n", get_next_line(i));
-}
+// int main()
+// {
+// 	int i = open("text.txt",O_RDONLY);
+// 	printf("%s\n", get_next_line(i));
+// 	printf("%s\n", get_next_line(i));
+// 	//printf("%s \n", get_next_line(i));
+// }
