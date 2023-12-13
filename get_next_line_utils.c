@@ -43,6 +43,7 @@ size_t	ft_strlen(char *str)
 		i++;
 	return (i);
 }
+
 char	*ft_strcpy(char *dest, char *src)
 {
 	int	i;
@@ -56,6 +57,7 @@ char	*ft_strcpy(char *dest, char *src)
 	dest[i] = '\0';
 	return (dest);
 }
+
 char	*ft_strdup(char *s1)
 {
 	int		i;
