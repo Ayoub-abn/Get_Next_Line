@@ -18,16 +18,16 @@ char	*ft_strchr(const char *s, int c)
 	int		i;
 
 	i = 0;
-	str = (char *) s;
+	str = (char *)s;
 	if (str == NULL)
-		return NULL;
+		return (NULL);
 	while (str[i] != '\0')
 	{
 		if (str[i] == (char)c)
 			return (str + i);
 		i++;
 	}
-	if ((char )c == 0)
+	if ((char)c == 0)
 		return (str + i);
 	return (0);
 }
@@ -42,20 +42,6 @@ size_t	ft_strlen(char *str)
 	while (str[i])
 		i++;
 	return (i);
-}
-
-char	*ft_strcpy(char *dest, char *src)
-{
-	int	i;
-
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
 }
 
 char	*ft_strdup(char *s1)
@@ -75,6 +61,7 @@ char	*ft_strdup(char *s1)
 	p[i] = '\0';
 	return (p);
 }
+
 char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	i;
@@ -101,4 +88,3 @@ char	*ft_strjoin(char *s1, char *s2)
 	free(s1);
 	return (str);
 }
-
