@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabdenou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/09 21:54:54 by aabdenou          #+#    #+#             */
-/*   Updated: 2023/12/12 16:13:52 by aabdenou         ###   ########.fr       */
+/*   Created: 2023/12/14 12:38:32 by aabdenou          #+#    #+#             */
+/*   Updated: 2023/12/14 12:38:33 by aabdenou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*all_buffer(char *str, int fd)
 {
@@ -91,16 +91,16 @@ char	*rest(char *str)
 
 char	*get_next_line(int fd)
 {
-	static char	*str;
+	static char	*str[1024];
 	char		*aff;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= 2147483647)
 		return (NULL);
-	str = all_buffer(str, fd);
-	if (str == NULL)
+	str[fd] = all_buffer(str[fd], fd);
+	if (str[fd] == NULL)
 		return (NULL);
-	aff = one_line(str);
-	str = rest(str);
+	aff = one_line(str[fd]);
+	str[fd] = rest(str[fd]);
 	return (aff);
 }
 
@@ -108,16 +108,13 @@ char	*get_next_line(int fd)
 // {
 //     int fd;
 //     char *line;
-
-//     // Open a file for reading (replace "filename.txt" with your file)
 //     fd = open("text.txt", O_RDONLY);
-//     // Read lines using get_next_line until the end of the file
 //     while ((line = get_next_line(fd)) != NULL)
 //     {
 //         printf("Line: %s\n", line);
 //         free(line); 
-//     } 
+// }
 //     close(fd);
-// 	   system("leaks a.out");
+//     system("leaks a.out");
 //     return 0;
 // }
