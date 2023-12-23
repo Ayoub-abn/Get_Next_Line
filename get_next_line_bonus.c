@@ -18,7 +18,7 @@ char	*all_buffer(char *str, int fd)
 	int		count;
 
 	count = 1;
-	buffer = malloc(BUFFER_SIZE + 1);
+	buffer = malloc((size_t)BUFFER_SIZE + 1);
 	if (buffer == NULL)
 		return (NULL);
 	while (count != 0 && !ft_strchr(str, '\n'))
@@ -80,8 +80,7 @@ char	*rest(char *str)
 	s = malloc(ft_strlen(str) - i + 1);
 	if (s == NULL)
 		return (NULL);
-	if (str[i++] != '\n')
-	i++;
+	if (str[i++] == '\n')
 	while (str[i] != '\0')
 		s[j++] = str[i++];
 	s[j] = '\0';
@@ -91,10 +90,10 @@ char	*rest(char *str)
 
 char	*get_next_line(int fd)
 {
-	static char	*str[1024];
+	static char	*str[OPEN_MAX];
 	char		*aff;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= 2147483647)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	str[fd] = all_buffer(str[fd], fd);
 	if (str[fd] == NULL)
@@ -103,18 +102,3 @@ char	*get_next_line(int fd)
 	str[fd] = rest(str[fd]);
 	return (aff);
 }
-
-// int main(void)
-// {
-//     int fd;
-//     char *line;
-//     fd = open("text.txt", O_RDONLY);
-//     while ((line = get_next_line(fd)) != NULL)
-//     {
-//         printf("Line: %s\n", line);
-//         free(line); 
-// }
-//     close(fd);
-//     system("leaks a.out");
-//     return 0;
-// }

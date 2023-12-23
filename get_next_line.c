@@ -18,7 +18,7 @@ char	*all_buffer(char *str, int fd)
 	int		count;
 
 	count = 1;
-	buffer = malloc(BUFFER_SIZE + 1);
+	buffer = malloc((size_t)BUFFER_SIZE + 1);
 	if (buffer == NULL)
 		return (NULL);
 	while (count != 0 && !ft_strchr(str, '\n'))
@@ -94,7 +94,7 @@ char	*get_next_line(int fd)
 	static char	*str;
 	char		*aff;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= 2147483647)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	str = all_buffer(str, fd);
 	if (str == NULL)
@@ -103,21 +103,3 @@ char	*get_next_line(int fd)
 	str = rest(str);
 	return (aff);
 }
-
-// int main(void)
-// {
-//     int fd;
-//     char *line;
-
-//     // Open a file for reading (replace "filename.txt" with your file)
-//     fd = open("text.txt", O_RDONLY);
-//     // Read lines using get_next_line until the end of the file
-//     while ((line = get_next_line(fd)) != NULL)
-//     {
-//         printf("Line: %s\n", line);
-//         free(line); 
-//     } 
-//     close(fd);
-// 	   system("leaks a.out");
-//     return 0;
-// }
