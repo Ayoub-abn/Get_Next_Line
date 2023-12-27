@@ -68,8 +68,7 @@ char	*rest(char *str)
 
 	i = 0;
 	j = 0;
-	if (str == NULL)
-		return (NULL);
+	
 	while (str[i] && str[i] != '\n')
 		i++;
 	if (str[i] == '\0')
@@ -93,7 +92,7 @@ char	*get_next_line(int fd)
 	static char	*str[OPEN_MAX];
 	char		*aff;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > OPEN_MAX)
 		return (NULL);
 	str[fd] = all_buffer(str[fd], fd);
 	if (str[fd] == NULL)
